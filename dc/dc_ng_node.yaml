@@ -1,0 +1,21 @@
+version: '3'
+services:
+ nginx:
+  image: nginx:mainline-alpine3.22-perl
+  container_name: nginx-proxy
+  ports:
+   - "89:80"
+  volumes:
+   - /share/nginx_default.conf:/etc/nginx/conf.d/default.conf:ro
+  depends_on:
+   - backend
+ 
+ backend:
+  image: node:lts-alpine3.21
+  container_name: my-backend
+  working_dir: /app
+  volumes:
+   - /tmp/app:/app
+  command: node server.js
+  expose:
+   - "3000"

@@ -1,0 +1,38 @@
+version: '3'
+services:
+ ser_postgres:
+  image: postgres:alpine3.20
+  container_name: postgres1
+  hostname: postgres1  
+  restart: always
+  ports:
+   - "5432:5432"
+  volumes:
+   - postgres_data1:/var/lib/postgresql/data
+  environment:
+   - POSTGRES_USER=hani
+   - POSTGRES_PASSWORD=hani
+    
+ ser_pgadmin:
+  image: dpage/pgadmin4:2024-09-20-1
+  container_name: pgadmin1
+  hostname: pgadmin1  
+  restart: unless-stopped
+  environment:
+   - PGADMIN_DEFAULT_EMAIL=hani@hani.com
+   - PGADMIN_DEFAULT_PASSWORD=hani
+   - PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION0000=True
+   - PGADMIN_CONFIG_LOGIN_BANNER="hani@hani.com hani"
+   - PGADMIN_CONFIG_CONSOLE_LOG_LEVEL000=10
+   - qPGADMIN_LISTEN_ADDRESS=192.168.200.161 
+   - qPGADMIN_LISTEN_PORT=5432 
+  ports:
+   - "85:80"
+  depends_on:
+   - ser_postgres
+  volumes:
+   - pgadmin_data1:/var/lib/pgadmin
+
+volumes:
+  postgres_data1:
+  pgadmin_data1:

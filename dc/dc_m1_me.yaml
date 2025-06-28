@@ -1,0 +1,32 @@
+version: '3'
+services:
+ ser_mongodb:
+  image: mongo:8.0
+  container_name: mongodb1
+  hostname: mongodb1  
+  restart: always
+  ports:
+   - "27017:27017"
+  volumes:
+   - mongodb_data1:/data/db
+  environment:
+   - MONGO_INITDB_ROOT_USERNAME=admin
+   - MONGO_INITDB_ROOT_PASSWORD=password
+    
+ ser_me81:
+  image: mongo-express:1.0.2-20-alpine3.19
+  container_name: me81
+  hostname: me81  
+  command: node app
+  restart: always
+  environment:
+   - ME_CONFIG_MONGODB_SERVER=ser_mongodb
+   - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+   - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+   - ME_CONFIG_BASICAUTH_USERNAME=admin
+   - ME_CONFIG_BASICAUTH_PASSWORD=admin
+  ports:
+   - "81:8081"
+
+volumes:
+ mongodb_data1:
