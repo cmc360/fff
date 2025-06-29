@@ -6,7 +6,8 @@ services:
   ports:
    - "89:80"
   volumes:
-   - /share/nginx_default.conf:/etc/nginx/conf.d/default.conf:ro
+   - /share/nginx/nginx_default.conf:/etc/nginx/conf.d/default.conf:ro
+   - /share/nginx/.htpasswd:/etc/nginx/.htpasswd:ro
   depends_on:
    - backend
  
@@ -15,7 +16,7 @@ services:
   container_name: my-backend
   working_dir: /app
   volumes:
-   - /tmp/app:/app
+   - /share/nodejs:/app
   command: node server.js
   expose:
    - "3000"
